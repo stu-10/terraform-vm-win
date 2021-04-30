@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<unattend xmlns="urn:schemas-microsoft-com:unattend">
+   <settings pass="specialize">
+      <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<ComputerName>${vm_name}</ComputerName>
+      </component>
+	  <component xmlns="" name="Microsoft-Windows-TerminalServices-LocalSessionManager" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="amd64">
+         <fDenyTSConnections>false</fDenyTSConnections>
+      </component>
+      <component xmlns="" name="Microsoft-Windows-TerminalServices-RDP-WinStationExtensions" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="amd64">
+         <UserAuthentication>0</UserAuthentication>
+      </component>
+      <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Networking-MPSSVC-Svc" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+         <FirewallGroups>
+            <FirewallGroup wcm:action="add" wcm:keyValue="RemoteDesktop">
+               <Active>true</Active>
+               <Profile>all</Profile>
+               <Group>@FirewallAPI.dll,-28752</Group>
+            </FirewallGroup>
+         </FirewallGroups>
+      </component>
+   </settings>
+   <settings pass="oobeSystem">
+      <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+         <UserAccounts>
+            <AdministratorPassword>
+               <Value>nutanix/4u</Value>
+               <PlainText>true</PlainText>
+            </AdministratorPassword>
+         </UserAccounts>
+         <AutoLogon>
+            <Password>
+               <Value>nutanix/4u</Value>
+               <PlainText>true</PlainText>
+            </Password>
+            <Enabled>true</Enabled>
+            <LogonCount>1</LogonCount>
+            <Username>Administrator</Username>
+         </AutoLogon>
+         <FirstLogonCommands>
+            <SynchronousCommand wcm:action="add">
+               <CommandLine>cmd.exe /c netsh firewall add portopening TCP 5985 "Port 5985"</CommandLine>
+               <Description>Win RM port open</Description>
+               <Order>1</Order>
+               <RequiresUserInput>true</RequiresUserInput>
+            </SynchronousCommand>
+         </FirstLogonCommands>
+         <OOBE>
+            <HideEULAPage>true</HideEULAPage>
+            <SkipMachineOOBE>true</SkipMachineOOBE>
+         </OOBE>
+      </component>
+      <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+         <SystemLocale>en-GB</SystemLocale>
+         <UILanguageFallback>en-GB</UILanguageFallback>
+         <UILanguage>en-GB</UILanguage>
+         <UserLocale>en-GB</UserLocale>
+      </component>
+   </settings>
+</unattend>
