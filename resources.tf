@@ -7,23 +7,14 @@ terraform {
   }
 }
 
-provider "nutanix" {
-  # Configuration options
-  username  = "stuart.jennings@ukdemo.local"
-  password  = "Nutanix123!!!"
-  endpoint  = "192.168.2.40"
-  insecure  = true
-  port      = 9440
-}
-
 #region provider
-#    provider "nutanix" {
-#        username = "${var.prismUser}"
-#        password = "${var.prismSecret}"
-#        endpoint = "${var.prismEndpoint}"
-#        insecure = true
-#        port     = "${var.prismPort}"
-#    }
+provider "nutanix" {
+  username = "${var.prismUser}"
+  password = "${var.prismSecret}"
+  endpoint = "${var.prismEndpoint}"
+  insecure = true
+  port = "${var.prismPort}"
+}
 #endregion
 
 #region data
